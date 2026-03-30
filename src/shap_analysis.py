@@ -39,24 +39,23 @@ def run_shap_analysis(model_path, X_test_path, feature_names_path):
     shap.summary_plot(shap_values_to_plot, X_sample, show=False)
     plt.show()
 
+    print("Generowanie wykresu Waterfall...")
+    
+    example_index = 0 
+    
 
-    example_index = 0
-
-    explanation = shap.Explanation(
-        values=shap_values[example_index],
+    exp_for_one_case = shap.Explanation(
+        values=all_shap_values[example_index, :, 1] if len(all_shap_values.shape) == 3 else all_shap_values[example_index],
         base_values=explainer.expected_value[1],
         data=X_sample.iloc[example_index],
         feature_names=feature_names
     )
 
     plt.figure(figsize=(10, 6))
-    shap.plots.waterfall(explanation, show=False)
-    plt.title(f"SHAP Waterfall Plot: Analiza transakcji nr {X_sample.index[example_index]}")
+    shap.plots.waterfall(exp_for_one_case, show=False)
+    plt.title(f"Dlaczego transakcja {X_sample.index[example_index]} została tak oceniona?")
     plt.tight_layout()
-    plt.savefig('models/shap_waterfall.png')
     plt.show()
-
-    print("--- Analiza SHAP zakończona ---")
 
 if __name__ == "__main__":
 
