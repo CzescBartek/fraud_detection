@@ -14,7 +14,7 @@ def evaluate_model(model, X_test, y_test, feature_names):
 
     plt.figure(figsize=(10, 6))
     sns.barplot(x='importance', y='feature', data=importances, palette='viridis')
-    plt.title('Top 10 najważniejszych cech (w tym Twoje autorskie!)')
+    plt.title('Top 10 features')
     plt.show()
 
     precision, recall, _ = precision_recall_curve(y_test, y_probs)

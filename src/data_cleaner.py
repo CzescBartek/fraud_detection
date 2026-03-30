@@ -5,7 +5,7 @@ def financial_data_cleaner(df):
     df = df[df['Amount'] > 0]
     
 
-    df = df.drop_duplicates(subset=['Time', 'Amount', 'V1', 'V2'], keep='first')
+    df = df.drop_duplicates(keep='first')
     
     # Setting high value column to get outliers
     q99 = df['Amount'].quantile(0.99)

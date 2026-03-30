@@ -1,7 +1,7 @@
 import pandas as pd
 from sklearn.model_selection import StratifiedShuffleSplit
 import joblib
-
+import os
 
 from Features.amount_deviation import get_amount_deviation
 from Features.transaction_velocity import get_transaction_velocity
@@ -11,7 +11,7 @@ from src.data_loader import load_data
 from src.model_training import FraudModelTrainer
 from src.preprocessing import Preprocessor 
 from src.evaluator import evaluate_model
-
+from src.shap_analysis import run_shap_analysis
 def main():
 
     df = load_data('data/creditcard.csv')
@@ -39,8 +39,11 @@ def main():
     
     print("\nPROCES FINISHED")
     print(f"AMOUNT OF FEATURES IN MODEL:  {len(feature_names)}")
-    
+    print("Zapisywanie danych do analizy SHAP...")
+    joblib.dump(X_test_scaled, 'models/X_test.pkl') 
+    joblib.dump(feature_names, 'models/feature_names.pkl') 
     return model, X_test_scaled, y_test, feature_names
+    
 
 if __name__ == "__main__":
     model, X_test, y_test, feats = main()
