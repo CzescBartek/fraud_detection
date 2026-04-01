@@ -23,3 +23,14 @@ The project follows a modular structure for scalability:
 * **Metric:** **Average Precision (AP) = 0.77**.
 * **Interpretability:** The model prioritizes behavioral consistency (`feat_dist`) and transaction context over raw values, significantly reducing False Positives.
 
+## 📊 Model Evaluation Results
+
+The model was evaluated using metrics specifically suited for highly imbalanced datasets:
+
+| Metric | Value | Interpretation |
+| :--- | :--- | :--- |
+| **ROC AUC** | 0.98 | Excellent separation between classes. |
+| **Average Precision (AP)** | 0.77 | Strong ability to catch fraud while minimizing false alarms. |
+
+
+
