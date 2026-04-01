@@ -42,9 +42,10 @@ def main():
     print("Zapisywanie danych do analizy SHAP...")
     joblib.dump(X_test_scaled, 'models/X_test.pkl') 
     joblib.dump(feature_names, 'models/feature_names.pkl') 
-    return model, X_test_scaled, y_test, feature_names
+    joblib.dump(prep.scaler, 'models/scaler.pkl')
+    return model, X_test_scaled, y_test, feature_names, prep.scaler
     
 
 if __name__ == "__main__":
-    model, X_test, y_test, feats = main()
+    model, X_test, y_test, feats,scaler = main()
     evaluate_model(model, X_test, y_test, feats)

@@ -41,7 +41,7 @@ def run_shap_analysis(model_path, X_test_path, feature_names_path):
 
     print("Generowanie wykresu Waterfall...")
     
-    example_index = 0 
+    example_index = 0
     
 
     exp_for_one_case = shap.Explanation(

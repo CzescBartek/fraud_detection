@@ -5,5 +5,5 @@ def get_transaction_velocity(df, window_seconds=3600):
 
     temp_df = df.sort_values('Time')
     
-    velocity = temp_df.rolling(window=50, on='Time').count()['V1']
+    velocity = temp_df.rolling(window=window_seconds, on='Time').count()['V1']
     return velocity
