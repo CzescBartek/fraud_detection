@@ -32,5 +32,14 @@ The model was evaluated using metrics specifically suited for highly imbalanced 
 | **ROC AUC** | 0.98 | Excellent separation between classes. |
 | **Average Precision (AP)** | 0.77 | Strong ability to catch fraud while minimizing false alarms. |
 
-
+## 🏗️ Project Structure
+```text
+fraud_detection/
+├── api/                # FastAPI application & Pydantic schemas
+├── models/             # Serialized (.pkl) models, scalers, and metadata
+├── src/                # Core ML logic (Preprocessing, Training, Evaluator)
+├── __main__.py         # Package entry point for the training pipeline
+├── Dockerfile          # Container configuration for production
+├── .dockerignore       # Files to exclude from the Docker image
+└── requirements.txt    # Python dependencies with pinned versions
 
