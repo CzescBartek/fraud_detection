@@ -6,6 +6,7 @@ import os
 
 def run_shap_analysis(model_path, X_test_path, feature_names_path):
     print("\n--- SHAP analysis ---")
+    plot_dir = '../plots'
     
     # 1. Wczytywanie modelu i danych
     if not os.path.exists(model_path):
@@ -31,15 +32,20 @@ def run_shap_analysis(model_path, X_test_path, feature_names_path):
     if isinstance(all_shap_values, list):
         shap_values_to_plot = all_shap_values[1]
     else:
-    # Jeśli to tablica 3D, bierzemy ostatni wymiar odpowiadający klasie 1
+
         shap_values_to_plot = all_shap_values[:, :, 1]
 
-    print("Generowanie wykresu Summary Plot...")
+    print("Generating summary plot...")
     plt.figure(figsize=(12, 8))
     shap.summary_plot(shap_values_to_plot, X_sample, show=False)
-    plt.show()
 
-    print("Generowanie wykresu Waterfall...")
+    shap_plot_path = os.path.join(plot_dir, 'shap_summary.png')
+    plt.savefig(shap_plot_path, dpi=300, bbox_inches='tight')
+    plt.show()
+    plt.close()
+
+
+    print("Generating Waterfall plot...")
     
     example_index = 0
     
@@ -53,9 +59,14 @@ def run_shap_analysis(model_path, X_test_path, feature_names_path):
 
     plt.figure(figsize=(10, 6))
     shap.plots.waterfall(exp_for_one_case, show=False)
-    plt.title(f"Dlaczego transakcja {X_sample.index[example_index]} została tak oceniona?")
+    plt.title(f"Why transactiona {X_sample.index[example_index]} was graded like that?")
     plt.tight_layout()
+
+
+    shap_bar_path = os.path.join(plot_dir, 'shap_bar.png')
+    plt.savefig(shap_bar_path, dpi=300, bbox_inches='tight')
     plt.show()
+    plt.close()
 
 if __name__ == "__main__":
 

@@ -36,6 +36,7 @@ The model was evaluated using metrics specifically suited for highly imbalanced 
 ```text
 fraud_detection/
 ├── api/                # FastAPI application & Pydantic schemas
+├── plots/              # Figures used in evaluation
 ├── models/             # Serialized (.pkl) models, scalers, and metadata
 ├── src/                # Core ML logic (Preprocessing, Training, Evaluator)
 ├── __main__.py         # Package entry point for the training pipeline
@@ -43,3 +44,12 @@ fraud_detection/
 ├── .dockerignore       # Files to exclude from the Docker image
 └── requirements.txt    # Python dependencies with pinned versions
 
+---
+## 🔗 Let's Connect!
+
+If you have any questions about this Fraud Detection system or want to discuss ML Engineering, feel free to reach out:
+
+* 💼 **LinkedIn:** [www.linkedin.com/in/bartosz-pliszka-b502bb359]
+* 📧 **Email:** [bartekpliszka@op.pl]
+
+---
