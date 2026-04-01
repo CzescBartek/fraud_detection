@@ -1,21 +1,25 @@
-# 🛡️ Modular Fraud Detection Pipeline with XAI
+# 🛡️ Real-Time Credit Card Fraud Detection System
 
-A Machine Learning pipeline designed to identify fraudulent credit card transactions. This project focuses on **feature engineering**, **modular software design**, and **Explainable AI (XAI)** to bridge the gap between "black-box" models and actionable business insights.
+A Machine Learning pipeline and REST API designed to detect fraudulent transactions using behavioral analysis and Explainable AI (XAI).
 
-## 🚀 Project Highlights
-* **Modular Architecture:** Clean separation of concerns (Features, Preprocessing, Training, Evaluation) following production-ready standards.
-* **Feature Engineering:** Goes beyond raw PCA components by implementing behavioral features:
-    * `amount_ratio` & `amount_zscore`: Captures spending "shocks" by comparing current transactions to 30-day rolling windows.
-    * `time_delta`: Detects high-frequency "brute-force" attack patterns.
-    * `feat_dist`: Measures abrupt shifts in a user’s behavioral profile.
-* **Explainable AI (SHAP):** Uses Shapley Additive Explanations to visualize exactly *why* the model flags a transaction as fraudulent.
-* **Imbalanced Data Handling:** Utilizes **SMOTE** (Synthetic Minority Over-sampling Technique) to train effectively on datasets where fraud represents <0.2% of cases.
+## 🌟 Key Features
+* **End-to-End Pipeline:** From raw data to a live production API.
+* **Feature Engineering:**
+    * `feat_dist`: High-dimensional Euclidean distance measuring behavioral shifts (Top 5 Feature).
+    * `amount_ratio` & `amount_zscore`: Real-time anomaly detection in transaction values.
+    * `time_delta`: Captures high-frequency attack patterns.
+* **Explainable AI (XAI):** Integrated **SHAP** (Global & Local) to provide full transparency for every "BLOCK" decision.
+* **Production-Ready API:** Built with **FastAPI**, featuring automated Swagger documentation and input validation.
 
-## 🏗️ Directory Structure
-```text
-FRAUD_DETECTION/
-├── Features/               # Feature Factory - Custom behavioral logic
-├── src/                    # Core Pipeline (Loader, Preprocessor, Trainer, Evaluator)
-├── models/                 # Serialized .pkl models and feature metadata
-├── data/                   # Dataset storage (creditcard.csv)
-└── __main__.py             # Main entry point to run the full pipeline
+## 🏗️ System Architecture
+The project follows a modular structure for scalability:
+* `Features/`: Custom logic for behavioral feature extraction.
+* `src/`: Core engine (Preprocessing, Training, Evaluation, XAI).
+* `api/`: REST API implementation for real-time inference.
+* `models/`: Persistent storage for trained models, scalers, and metadata.
+
+## 📊 Model Performance
+* **Algorithm:** Random Forest Classifier (optimized with SMOTE).
+* **Metric:** **Average Precision (AP) = 0.77**.
+* **Interpretability:** The model prioritizes behavioral consistency (`feat_dist`) and transaction context over raw values, significantly reducing False Positives.
+
