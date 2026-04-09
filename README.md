@@ -75,6 +75,11 @@ The models utilize different logic to identify fraud, providing a multi-dimensio
   <em>Feature Importance: Both models agree that V14 is the strongest fraud indicator, but XGBoost places higher value on the temporal aspects of the transaction.</em>
 </p>
 
+### ⚡ API Deployment
+The API currently uses the **XGBoost** model as the primary inference engine. 
+Decision: **XGBoost was chosen over Random Forest** due to its superior Precision-Recall balance 
+(AP = 0.80) and significantly lower False Positive Rate, ensuring a better customer experience 
+by reducing "unfairly blocked" transactions by 44%.
 
 **Business Impact:** While both models perform exceptionally well, **XGBoost** is the superior choice for production. It catches more fraud cases while **reducing False Positives by 44%** (94 vs 167). This significantly lowers operational costs and prevents unnecessary customer friction.
 

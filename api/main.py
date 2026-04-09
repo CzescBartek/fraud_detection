@@ -4,6 +4,8 @@ import joblib
 import pandas as pd
 import numpy as np
 import os
+global model
+import xgboost as xgb 
 
 class TransactionData(BaseModel):
     Time: float
@@ -19,7 +21,7 @@ class TransactionData(BaseModel):
 app = FastAPI(title="Fraud Detection API", description="Fraud detection")
 
 
-MODEL_PATH = 'models/rf_model.pkl'
+MODEL_PATH = 'models/xgb_model.pkl'
 SCALER_PATH = 'models/scaler.pkl'
 
 if os.path.exists(MODEL_PATH) and os.path.exists(SCALER_PATH):
