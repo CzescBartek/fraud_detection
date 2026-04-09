@@ -12,6 +12,7 @@ from src.model_training import FraudModelTrainer
 from src.preprocessing import Preprocessor 
 from src.evaluator import evaluate_model
 from src.shap_analysis import run_shap_analysis
+from src.model_XGB import FraudXGBoostModel
 def main():
 
     df = load_data('data/creditcard.csv')
@@ -32,20 +33,31 @@ def main():
     X_train_res, y_train_res = prep.balance_data(X_train_scaled, y_train)
 
 
-    trainer = FraudModelTrainer()
-    model = trainer.train(X_train_res, y_train_res)
+    rf_trainer = FraudModelTrainer()
+    rf_model = rf_trainer.train(X_train_res, y_train_res)
     
+    xgb_wrapper = FraudXGBoostModel(n_estimators=100, learning_rate=0.1)
+    xgb_wrapper.train(X_train_res, y_train_res)
+
+
     feature_names = X_train.columns.tolist()
     
-    print("\nPROCES FINISHED")
-    print(f"AMOUNT OF FEATURES IN MODEL:  {len(feature_names)}")
-    print("Zapisywanie danych do analizy SHAP...")
+    os.makedirs('models', exist_ok=True)
     joblib.dump(X_test_scaled, 'models/X_test.pkl') 
     joblib.dump(feature_names, 'models/feature_names.pkl') 
     joblib.dump(prep.scaler, 'models/scaler.pkl')
-    return model, X_test_scaled, y_test, feature_names, prep.scaler
+    joblib.dump(rf_model, 'models/rf_model.pkl')
+    xgb_wrapper.save_model('models/xgb_model.pkl')
+
+
+    return rf_model,xgb_wrapper.model, X_test_scaled, y_test, feature_names, prep.scaler
     
 
 if __name__ == "__main__":
-    model, X_test, y_test, feats,scaler = main()
-    evaluate_model(model, X_test, y_test, feats)
+    rf_model, xgb_model, X_test, y_test, feats, scaler = main()
+    
+    print("\n--- EVALUATING RANDOM FOREST ---")
+    evaluate_model(rf_model, X_test, y_test, feats, 'RF')
+    
+    print("\n--- EVALUATING XGBOOST ---")
+    evaluate_model(xgb_model, X_test, y_test, feats, 'XGB')

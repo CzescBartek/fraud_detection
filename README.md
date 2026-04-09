@@ -18,19 +18,65 @@ The project follows a modular structure for scalability:
 * `api/`: REST API implementation for real-time inference.
 * `models/`: Persistent storage for trained models, scalers, and metadata.
 
-## 📊 Model Performance
-* **Algorithm:** Random Forest Classifier (optimized with SMOTE).
-* **Metric:** **Average Precision (AP) = 0.77**.
-* **Interpretability:** The model prioritizes behavioral consistency (`feat_dist`) and transaction context over raw values, significantly reducing False Positives.
+## 📊 Model Performance & Comparison
 
-## 📊 Model Evaluation Results
+The system evaluates two powerful architectures to find the optimal balance between catching fraud and maintaining a smooth customer experience.
 
-The model was evaluated using metrics specifically suited for highly imbalanced datasets:
+### Battle of the Models: RF vs XGBoost
 
-| Metric | Value | Interpretation |
-| :--- | :--- | :--- |
-| **ROC AUC** | 0.98 | Excellent separation between classes. |
-| **Average Precision (AP)** | 0.77 | Strong ability to catch fraud while minimizing false alarms. |
+| Metric | Random Forest (SMOTE) | XGBoost (Weighted) | Winner |
+| :--- | :--- | :--- | :--- |
+| **ROC AUC** | **0.99** | 0.98 | **Random Forest** |
+| **Average Precision (AP)** | 0.78 | **0.80** | **XGBoost** |
+| **True Positives (Caught Frauds)** | 75 | **76** | **XGBoost** |
+| **False Positives (Unfairly Blocked)** | 167 | **94** | **XGBoost** |
+
+**Business Impact:** While both models perform exceptionally well, **XGBoost** is the superior choice for production. It catches more fraud cases while **reducing False Positives by 44%** (94 vs 167). This significantly lowers operational costs and prevents unnecessary customer friction.
+
+### Performance Visualization
+
+<p align="center">
+  <img src="plots/roc_curve_RF.png" width="45%" alt="ROC Curve RF" />
+  <img src="plots/roc_curve_XGB.png" width="45%" alt="ROC Curve XGB" />
+</p>
+<p align="center">
+  <em>ROC Curves show near-perfect class separation for both models (AUC 0.98-0.99).</em>
+</p>
+
+<p align="center">
+  <img src="plots/pr_curve_RF.png" width="45%" alt="PR Curve RF" />
+  <img src="plots/pr_curve_XGB.png" width="45%" alt="PR Curve XGB" />
+</p>
+<p align="center">
+  <em>Precision-Recall curves highlight XGBoost's advantage (AP = 0.80) in maintaining precision at higher recall levels.</em>
+</p>
+
+### Confusion Matrix Comparison
+
+<p align="center">
+  <img src="plots/confusion_matrix_RF.png" width="45%" alt="Confusion Matrix RF" />
+  <img src="plots/confusion_matrix_XGB.png" width="45%" alt="Confusion Matrix XGB" />
+</p>
+
+---
+
+## 🔍 Feature Importance & Interpretability
+
+The models utilize different logic to identify fraud, providing a multi-dimensional view of suspicious activity:
+
+* **Random Forest:** Relies heavily on latent features (`V14`, `V10`, `V12`) and the custom `feat_dist` metric to ensure decision stability.
+* **XGBoost:** Takes a more aggressive approach by leveraging time dynamics (`time_delta`) and transaction proportions (`amount_ratio`), allowing for faster detection of evolving attack patterns.
+
+<p align="center">
+  <img src="plots/top10_feat_RF.png" width="45%" alt="Features RF" />
+  <img src="plots/top10_feat_XGB.png" width="45%" alt="Features XGB" />
+</p>
+<p align="center">
+  <em>Feature Importance: Both models agree that V14 is the strongest fraud indicator, but XGBoost places higher value on the temporal aspects of the transaction.</em>
+</p>
+
+
+**Business Impact:** While both models perform exceptionally well, **XGBoost** is the superior choice for production. It catches more fraud cases while **reducing False Positives by 44%** (94 vs 167). This significantly lowers operational costs and prevents unnecessary customer friction.
 
 ## 🏗️ Project Structure
 ```text

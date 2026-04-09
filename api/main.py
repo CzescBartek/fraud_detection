@@ -16,17 +16,17 @@ class TransactionData(BaseModel):
     Amount: float
 
 
-app = FastAPI(title="Fraud Detection API", description="System wykrywania oszustw w czasie rzeczywistym")
+app = FastAPI(title="Fraud Detection API", description="Fraud detection")
 
 
-MODEL_PATH = 'models/fraud_model.pkl'
+MODEL_PATH = 'models/rf_model.pkl'
 SCALER_PATH = 'models/scaler.pkl'
 
 if os.path.exists(MODEL_PATH) and os.path.exists(SCALER_PATH):
     model = joblib.load(MODEL_PATH)
     scaler = joblib.load(SCALER_PATH)
 else:
-    print("BŁĄD: Brak plików modelu lub scalera w folderze models/")
+    print("No files")
 
 @app.get("/")
 def home():
